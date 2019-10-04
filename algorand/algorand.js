@@ -21,20 +21,25 @@ mnemonics = {
   2: "aisle rally more spike marble chapter cake vocal vicious planet dash point scale spring custom drink vocal mouse oyster rhythm hobby wise bitter abandon spoil",
   3 : "depth employ edit interest basic unfair blue flee equal tonight theme cushion forget mouse renew reform vicious double stadium boss casino circle manage about curtain"
 }
+
 //recover accounts using mnemonics
-var account = algosdk.mnemonicToSecretKey(mnemonics[0]);
+var account = algosdk.mnemonicToSecretKey(mnemonics[1]);
+console.log(account.addr)
 
-
+/*
 //send transaction to algorand blockchain
 (async () => {
       //Get the relevant params from the algod
       let params = await algodclient.getTransactionParams();
       let endRound = params.lastRound + parseInt(1000);
 
-      //create a transaction
-      //note that the closeRemainderTo parameter is commented out
-      //This parameter will clear the remaining funds in an account and 
-      //send to the specified account if main transaction commits
+      const template1 = {
+        itemId: 44,
+        temp: 57.5,
+        weight: 789,
+        itemName: "sandles"
+      };
+
       let txn = {
           "from": account.addr,
           "to": "S3L2IYSYHQYANNKY53HEXHRGV5KBLFPIAXLBK36S7XJY4UISFYFM7K3E3I",
@@ -45,27 +50,28 @@ var account = algosdk.mnemonicToSecretKey(mnemonics[0]);
           "genesisID": params.genesisID,
           "genesisHash": params.genesishashb64,
           "note": algosdk.encodeObj(template1),
-          //"closeRemainderTo": "IDUTJEUIEVSMXTU4LGTJWZ2UE2E6TIODUKU6UW3FU3UKIQQ77RLUBBBFLA"
       };
       //sign the transaction
       let signedTxn = algosdk.signTransaction(txn, account.sk);
       //submit the transaction
       let tx = (await algodclient.sendRawTransaction(signedTxn.blob));
       console.log("Transaction : " + tx.txId);
+      decodeNotes(tx.txId);
 })().catch(e => {
   console.log(e);
 });
 
 
 //function to read notes field from a transaction using txID
-(async () => {
+(async function decodeNotes(txid){
     let params = await algodclient.getTransactionParams();
-    let txid = "NNOJ3AECOHXGN2BE2UPTOOIVHGMXM6H24F42KVAQ7D3B35J5DVMQ";
+    let txidCurrent = txid;
 
-    let tx = (await algodclient.transactionInformation( account.addr, txid ));
+    let tx = (await algodclient.transactionInformation( account.addr, txidCurrent ));
     let encodednote =   JSON.stringify(algosdk.decodeObj(tx.note), undefined, 4);
     console.log( "Decoded: " + encodednote );
  
 })().catch(e => {
     console.log(e.error);
 });
+*/
