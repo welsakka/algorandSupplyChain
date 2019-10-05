@@ -1,26 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import Users from './users';
 import Notfound from './notfound';
 import * as serviceWorker from './serviceWorker';
 import { Route, Link, BrowserRouter as Router, Switch } from 'react-router-dom';
+import Dashboard from './dashboard';
 
 const rounting = (
     <Router>
         <div>
-            <ul>
-                <li>
-                    <Link to="/">Home</Link>
-                </li>
-                <li>
-                    <Link to="/users">Users</Link>
-                </li>
-            </ul>
             <Switch>
-            <Route exact path="/" component={App} />
-            <Route path="/users" component={Users} />
+            <Route exact path="/" component={Dashboard} />
             <Route component={Notfound} />
             </Switch>
         </div>

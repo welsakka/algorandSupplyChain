@@ -1,20 +1,18 @@
 exports.template1 = {
     itemName: "Yeezys",
     weight: 0,
-    dollarAmount: 0,
+    dollarAmount: 375,
     lastLocation: "",
-    exepectedDelivery: 0,
     specialInst : ""
   };
 
 exports.template2 = {
-    itemName: "Advils",
+  itemName: "Pharmaceutical medicine",
     temp: 0,
     weight: 0,
     quantity : 0,
     dollarAmount: 0,
     lastLocation: "",
-    exepectedDelivery: 0,
     specialInst : ""
   };
 
@@ -24,6 +22,6 @@ exports.template3 = {
     quantity : 0,
     dollarAmount: 0,
     lastLocation: "",
-    exepectedDelivery: 0,
     specialInst : ""
   };
+
