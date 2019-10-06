@@ -17,10 +17,28 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, secondaryListItems } from './listitems';
 import Chart from './chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
+import Deposits from './deposits';
+import Orders from './orders';
+const algosdk = require('algosdk');
+
+//connecting to algorand blockchain using provided algorand testnode credentials
+const atoken = "ef920e2e7e002953f4b29a8af720efe8e4ecc75ff102b165e0472834b25832c1";
+const aserver = "http://hackathon.algodev.network";
+const aport = 9100;
+
+const algodclient = new algosdk.Algod(atoken, aserver, aport);
+
+
+async function getTxs(addr) {
+  let params = await algodclient.getTransactionParams();
+
+  //get all transactions for an address for the last 1000 rounds
+  let txts = (await algodclient.transactionByAddress( addr, params.lastRound - 1000, params.lastRound ));
+  let lastTransaction = txts.transactions[txts.transactions.length-1];
+  return lastTransaction;
+}
 
 function Copyright() {
   return (
@@ -120,29 +138,23 @@ export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setOpen(false);
   };
   const handleDrawerClose = () => {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
+  var tx = getTxs();
+
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar position="absolute">
         <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-          >
-            <MenuIcon />
-          </IconButton>
+
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-            Dashboard
+            Algorand Supply Chain Dashboard
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -151,23 +163,7 @@ export default function Dashboard() {
           </IconButton>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
-        </div>
-        <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
-      </Drawer>
+
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
@@ -184,7 +180,7 @@ export default function Dashboard() {
                 <Deposits />
               </Paper>
             </Grid>
-            {/* Recent Orders */}
+            {/* Recent Shipments */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <Orders />
